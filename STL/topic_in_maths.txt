@@ -1,0 +1,9 @@
+Types of problems in ICPC for mathematics
+[a] Adhoc/Formula Based/Brute Force(relativily easier)
+[b] Big Integers(Used to calculate large factorials)
+[c] Exponentiation(used to solve linear recurrences using matrix exponentiation)
+[d] Number Systems/ Series(Problems on AP, GP and HP)
+[e] Pigeonhole Principle
+[f] Inclusion-Exclusion principle(Set theory and Cardinality of sets)
+[g] Probability and Expectations
+[h] Combinatorics

@@ -1,0 +1,3 @@
+[1] If ever stuck to find a solution in competitive programming write down 3 to 4 possible testcase find the solution in brute force manner and then try to find a pattern in it to find a efficient solution.
+
+[2] If point one oent work then dig deep into th concept of the problem to gain insights.

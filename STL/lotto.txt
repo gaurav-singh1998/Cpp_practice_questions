@@ -1,0 +1,2 @@
+if we were to use recurrences in lotto problem then the complexity would be
+(2^n) but with for loop we get (n^no_of_loops). And if bitmasking is used then we would have to check whose 6 bits are set.

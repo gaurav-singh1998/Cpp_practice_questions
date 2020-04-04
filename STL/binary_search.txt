@@ -1,0 +1,32 @@
+We know how binary search can be applied to an array to find an element in an
+array but capability of binary search isn't only limited upto array but to any 
+search space which is "monotonic" in nature. For eg:- A sorted array has a 
+search space ehich is "monotonic" in nature.
+
+Rules for applying binary search for finding the square root of a function
+[1] Since n vs root(n) has monotonic search space binary search can be applied.
+[2] The search space will be [0, 48]
+[3] So first divide a number into two halves[0, 24] and [24, 48].
+[4] Now since 24^2 is greater than 48 we will turn our focus of finding the 
+    answer to the left side of 24 on the number line.
+[5] Now the search space has been reduced to [0, 23]
+[6] After dividing the new number lines into two halves we get the midpoint as
+    12 now 12^2 is also greater than 48 now also will reduce our search space
+    by focusing on [0, 11].
+[7] Now after dividing the search space into two halves we get 5 as the midpoint
+    Now 5^2 is less than 48 as a result we will now reduce our search space to the
+    right side of 5 i.e. from [6, 10]. 
+[8] Now after finding the midpoint in the search space we get 7 as the midpoint as  
+    7^2 is greater than 48 we will reduce our focus to left side of 7 and as result
+    we will only get a single number 6 as the ouput of the algorithm.
+
+Here the search space and the method on how to reduce the search space known as 
+validating function is differnt from the classical binary search and should be taught 
+before applying the algorithm in different situation. So the main point to focus
+upon is to think about the search space and the validating function carefully.
+
+Once we have got the answer from applying binary search for our solution than
+we can look if 6.1^2 is greater than 48, 6.2^2 is greater than 48, 6.3^2 is greater 
+than 48 and so on suppose we go uptill 6.7^2 and found it is greater than 48
+than we can surely say that 6.6 is the answer. So the final complexity of the 
+algorithm is O(log(n) + P) where P is the required precison.

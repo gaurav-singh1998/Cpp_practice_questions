@@ -1,0 +1,28 @@
+Consider the program for computing nth number in fibonacci sequence. It would be:-
+int fib(int n)
+{
+    if(n==0) return 0;
+    if(n==1) return 1;
+    int ans=fib(n-1) + fib(n-2);
+    return ans;
+}
+
+In the above program we are using recurrence for calculating the nth term of fibonacci sequence. 
+The problem with this method is the time complexity which is exponential which can be deduced if recurrence 
+tree is drawn. So, from the recurrence tree it could be seen that for calculating the nth term of the sequence
+we would have to do the same computation again and again which is very inefficient.
+To overcome this probem we can we can use memoization which can reduce the time complexity for exponential to linear.
+This kind of optimization is very helpful if larger term is needed like 45th fibonacci number.
+The above program's time complexity=O(2^n)(We have done 2^n computations for calculating n digits.)
+Time complexity with memoization=O(n).(n is also known as the number of states which is usually the time complexity of a dp problem.)
+
+Dynamic Progamming is of two types:-
+1) memoization(top down approach)
+2) bottom-up approach(pure dp)
+
+There are several problems with memoization. For eg:- If we want to compute fib(5) then this will be stored in stack.
+Above fib(5), fib(4) will be stored and above fib(4) fib(3) will be there and this will happen until
+fib(1) which then will be computed and then fib(0) will be called and then it will be computed directly.
+So for nth fibonacci number we have to store n functions in stack which is huge problem if 10^8 fibonacci
+number is required. This problem is solved by bottom-up approach. In bottom up approach first in focus rather than fib(5)
+fib(0) is there.

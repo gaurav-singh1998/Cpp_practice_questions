@@ -1,0 +1,38 @@
+There are total of 6 bitwise operators, they are:-
+[a] Bitwise AND(&)
+[b] Bitwise OR(|)
+[c] Bitwise XOR(^)
+[d] Bitwise NOT(~)
+[e] Left shift operator(<<)
+[f] Right shift operator(>>)
+
+
+[a] Bitwise AND :- Does the boolean AND operation on the bits of the binary representation of the number.
+[b] Bitwise OR:- Does the boolean OR operation on the bits of the binary representation of the number.
+[c] Bitwise XOR :- Does the boolean XOR operation on the bits of the binary representation of the number.
+[d] Bitwise NOT :- Does the boolean NOT operation on the bits of the binary representation of the number.
+[e] Left shift operator :- Moves every bit of the binary representation of the number to left position thus removing the right most bit out of the picture. Doing left shift operator 'n' times on the number is equivalent to multiplying that number by 2^n, thus adding n zeros on the left side of the number.
+[f] Right shift operator :- Moves every bit of the binary representation of the number to right position thus removing the left most bit out of the picture. Doing right shift operator 'n' times on the number is equivalent to dividing that number by 2^n, thus adding n zeros on the right side
+of the number
+
+Using the bitwise operators is very efficient as they do the operation fast by being close to the machine architecture of the computer because the number are represented in the form of binary in the computer.
+
+Idea for finding the unique number in the array if every number occurs twice except for one number. How to find that unique number:-
+ Solution will be doing XOR on every number and by doing so only one number will remain which will be the unique number. For eg:-[2,2,3,3,4,4,1,5,5], here if we do XOR on every number then 2, 3, 4 and 5 will cancel out and leave only 1 in the array.
+
+ If we perform ~(2) we get -3 because every number is stored in the form of two complement in the computer which gives these results.
+
+ How to check if the number is odd or even:- Every odd number has it's last bit as '1' and every even number has '0' in the last bit
+ Thus,
+ if(number&1)
+ {
+     odd;
+ }
+ else
+ {
+     even;
+ }
+
+ How to check the number of bits that needs to be changed if a is needed to turn to number b. For eg:- If we want to change 12 to 11 then how many bits are needed to be changed?
+
+ Solution:- The total bits that needed to be changed are the total number of set bits in a^b.

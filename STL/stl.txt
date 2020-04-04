@@ -1,0 +1,97 @@
+There is a standard for everything from weights to product used at home. If a C++ program is standardized than it means it is available for very standard compilers. It is standard because it is available for every compilers. Template because we can create our own template and Library simply means that it contains a bunch of libraries.
+
+A computer basically deals with
+[a] Data
+[b] Algorithms
+[c] Data Stucture / Containers
+
+Data and Algoritms are always bound together in C++. For eg
+
+void PrintArr(int *arr, int n)
+{
+    for(int i=0; i<n; i++)
+     {
+         cout << arr[i];
+     }
+}
+
+The above fuction will only work for int type arr and not other type for eg:- Char
+
+So to remove these kind of boundation we have to use templates of C++
+
+To do this just write 'template <class T>' above the function definition and do not declare *arr as type int rather make it point to the type T. Doing so will make this function compatible with array of integer as well as character type.
+
+In general:- Templates allow us to use the same fuction for different datatypes or it can be said that the function are general giving rise to generic progrmming.
+
+Similarly the data and data structures are also bounded(Since data structures contain data they are often referred to as containers)
+For eg:- There is not a entity known as stack in real world it is a property that can be associated with any physical object like a stack of notes, a stack of plates in short the property of stack is similar in both the cases so to percieve this idea programmtically that data and containers cannot be bounded we use the build in templtes like stacks in c++.
+
+Consider,
+
+#include<iostream>
+#include<stack>
+
+int main()
+{
+    stack <int> s;
+    stack <char> s;
+}
+These create a stack that is compatible with integers and characters.
+
+Containers can be diffrentiated into three parts:-
+[a] Sequential
+[b] Associative
+[c] Adaptive
+
+[a] Sequential containers are those containers in which the sequence matters or the position matters(for eg:- Arrays, Vectors, List, Deque, etc)
+[b] In associative containers it doesn't matter where the data gets stored but the data is somewhat associated(for eg:- Unordered Map, Hash tables, Sets, multiset, unordered sets, etc)
+[c] Adaptive containers are not unique containers but they sit on other containers and restrict their abilities i.e. they are purely concepts(for eg:- Queue, Stacks, Priority Queue)
+
+Similarly the concept of ALgorithms and Containers are also bounded like if we write a function that prints an array it will only work with arrays and not other containers so to achieve generality over this concept we will assume that there is no such thing as containers and will achieve generality using the STL. This in STL is known as ranges. For eg in 'void PrintContainer(begin, end);' this function's declaration we used ranges from begin to end and this ranges can be implemented for any containers like array, stack, etc. This idea of ranges can be implemented by using a poerful concept of an 'iterator'. An 'iterator' is purely an concept which can be imposed on any containers. An iterator in C++ goes from [begin, end) to include the last point we will have to go till end+1. Thus an iterator just stands above all the containers and is helpful to skim through all the containers.
+
+Iterators can also be of several types like
+[a] Input iterator :- Only useful to skim the input data(like from the keyboard)
+[b] Output iterator:- Only useful to skim the output data(like on the monitor)
+Input and Output iterator are together known as the forward iterator(for eg files)
+If the iterator can go only in one direction then known as forward iterator if it works well in both the direction then it is known as bidirectional iterator
+
+So the basic levels through which the iterators can be percieved is
+input iterator output iterator
+        forward iterator
+        bidirectional iterator
+        Random Access iterator
+Random Access iterator can jump on different places like from position 1 to 5, 5 to 3, etc.
+
+An eg of iteratorin action:-
+
+#include<iostream>
+#include<algorithm>
+using namespace std;
+//unary predicate
+bool isToBeRemoved(int n)
+{
+    if(n>=20) return true;
+    return false;
+}
+int main()
+{
+    int a[3];
+    int n;
+    cin >> n;
+    for(int i=0; i< n; i++)
+    {
+        cin >> a[i];
+    }
+    
+    remove_if(arr, arr+n, isToBeRemoved)
+    {
+        for(int i=0; i<=1; i++)
+        {
+            cout << a[i] << endl;
+        }
+    }
+}
+remove_if will not modify the size of the array it will just put the appropriate elements first int he array. For eg in the above code if we instead of 1 used n inside  the remove_if for loop it will print all the elements of the array
+
+
+
