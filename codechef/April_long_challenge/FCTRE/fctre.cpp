@@ -1,10 +1,10 @@
-//Giving TLE
+//Giving TLE//
 #include<bits/stdc++.h>
 #define ll long long
 #define mod 1000000007
 using namespace std;
 
-ll graph[1000][1000];
+vector<vector<ll>> graph(100000, vector<ll>(100000));
 typedef pair<ll, ll> node;
 
 ll noofFactors(ll n)
@@ -59,13 +59,18 @@ int main()
         //}
         ll Q;
         cin >> Q;
-        ll noFactorized;
-        vector<ll>ans(Q);
-        ans.clear();
-        while(Q--)
+        ll noFactorized=1;
+        vector<pair<ll, ll>> queries;
+        for(ll i=0; i<Q; i++)
+        {
+            ll j, k;
+            cin >> j >> k;
+            queries.push_back(make_pair(j, k));
+        }
+        for(ll i=0; i<Q; i++)
         {
             noFactorized=1;
-            cin >> query.first >> query.second;
+            query.first=queries[i].first; query.second=queries[i].second;
             if(query.first == query.second)
             {
                 noFactorized *= graph[query.first][query.first];
@@ -83,8 +88,7 @@ int main()
                     noFactorized*=graph[query.first][query.first];
                 }
             }
-            ans.push_back(noofFactors(noFactorized));
+            cout << noofFactors(noFactorized) << '\n';
         }
-        for(ll a: ans) cout << a << "\n";
     }
 }
