@@ -31,13 +31,13 @@ class Graph
     void bfsTopologicalSort()
     {
         queue<T> q;
-        map<T, bool> visited;
+       // map<T, bool> visited;
         map<T, int> indegree;
 
         for(auto i: adjList)
         {
             T node = i.first;
-            visited[node] = false;
+         //   visited[node] = false;
             indegree[node] = 0;
         }
 
