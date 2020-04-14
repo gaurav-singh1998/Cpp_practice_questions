@@ -67,7 +67,7 @@ class Graph
 
         q.push(src);
         dist[src] = 0;
-        parent[src] = src;
+        //parent[src] = src;
 
         while(!q.empty())
         {
@@ -82,7 +82,7 @@ class Graph
                 {
                     q.push(neighbour);
                     dist[neighbour] =dist[node] + 1;
-                    parent[neighbour] = node;
+                    //parent[neighbour] = node;
                 }
             }
         }
