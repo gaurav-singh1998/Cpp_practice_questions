@@ -53,15 +53,18 @@ class Graph
 int main()
 {
     Graph<int> g;
-    g.addEdge(0, 1, true);
     g.addEdge(1, 2, true);
-    g.addEdge(0, 4, true);
-    g.addEdge(2, 4, true);
+    g.addEdge(2, 6, true);
+    g.addEdge(2, 7, true);
     g.addEdge(2, 3, true);
+    g.addEdge(3, 8, true);
+    g.addEdge(3, 9, true);
     g.addEdge(3, 4, true);
-    g.addEdge(3, 5, true);
+    g.addEdge(4, 10, true);
+    g.addEdge(4, 11, true);
+    g.addEdge(4, 5, true);
     g.print();
     cout << endl << endl;
-    g.dfs(0);
+    g.dfs(1);
     cout << endl;
 }

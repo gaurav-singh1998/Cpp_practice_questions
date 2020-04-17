@@ -46,7 +46,7 @@ class Graph
     }
 
     //Check for directed graph.
-    bool isCyclicDFS(T src)
+    bool isCyclicDFS()
     {
         map<T, bool> visited;
         map<T, bool> inStack;
