@@ -45,10 +45,10 @@ vector<int> prime_factorization(vector<int> primes, int n)
         if(n%p == 0)
         {
             factors.push_back(p);
-        }
-        while(n%p == 0)
-        {
-            n = n/p;
+            while(n%p == 0)
+            {
+                n = n/p;
+            }
         }
         i++;
         p=primes[i];
