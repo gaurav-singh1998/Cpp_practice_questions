@@ -20,6 +20,7 @@ int find(Set *set, int i)
 {
     if(set[i].parent != i)
     {
+        //Path compression
         set[i].parent = find(set, set[i].parent);
     }
     return set[i].parent;
