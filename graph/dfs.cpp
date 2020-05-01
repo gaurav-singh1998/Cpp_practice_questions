@@ -7,7 +7,7 @@ class Graph
 {
     map<T, list<T>>adjList;
     public:
-    void addEdge(T u, T v, bool bidir)
+    void addEdge(T u, T v, bool bidir=false)
     {
         adjList[u].push_back(v);
         if(bidir)
@@ -53,16 +53,19 @@ class Graph
 int main()
 {
     Graph<int> g;
-    g.addEdge(1, 2, true);
-    g.addEdge(2, 6, true);
-    g.addEdge(2, 7, true);
-    g.addEdge(2, 3, true);
-    g.addEdge(3, 8, true);
-    g.addEdge(3, 9, true);
-    g.addEdge(3, 4, true);
-    g.addEdge(4, 10, true);
-    g.addEdge(4, 11, true);
-    g.addEdge(4, 5, true);
+    g.addEdge(1, 2);
+    g.addEdge(2, 3);
+    g.addEdge(2, 4);
+    g.addEdge(4, 5);
+    g.addEdge(1, 6);
+    g.addEdge(6, 7);
+    g.addEdge(6, 8);
+    g.addEdge(8, 9);
+    g.addEdge(9, 10);
+    g.addEdge(7, 11);
+    g.addEdge(7, 12);
+    g.addEdge(11, 13);
+
     g.print();
     cout << endl << endl;
     g.dfs(1);

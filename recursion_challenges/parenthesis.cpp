@@ -13,6 +13,7 @@ void generate_parenthesis(string bracket, int open, int close, int pos, int base
         else return;
     }
     //Recursive case
+    cout << bracket << endl;
     if(open>close) generate_parenthesis(bracket+bracket2, open, close+1, pos+1, base);
     if(open<base) generate_parenthesis(bracket+bracket1, open+1, close, pos+1, base);
 }
