@@ -52,7 +52,7 @@ int main()
 {
     int arr[]={9, 8, 7, 5, 4};
     int n=sizeof(arr)/sizeof(int);
-    merge_sort(arr, 0, n);
+    merge_sort(arr, 0, n-1);
     for(int i=0; i<n; i++)
     {
         cout << arr[i] << " ";
