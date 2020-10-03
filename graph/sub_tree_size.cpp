@@ -21,60 +21,78 @@ void c_p_c()
 {
 	ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
 #ifndef ONLINE_JUDGE
-	freopen("apple.txt", "r", stdin);
+	freopen("input.txt", "r", stdin);
+	freopen("output.txt", "w", stdout);
 #endif
 }
 
-int R, C;
-//W N E S
-int dx[] = { -1, 0, 1, 0};
-int dy[] = {0, -1, 0, 1};
-
-//ch is the color to be replaced.
-//color is the character to be added.
-void floodFill(char mat[][50], int i, int j, char ch, char color)
+class Graph
 {
-	//Base case Matrix bounds
-	if (i < 0 || j < 0 || i >= R || j >= C)
+	map<int, list<int>> adjList;
+	int V;
+public:
+	Graph(int v)
 	{
-		return;
+		this->V = v;
 	}
-	//Boundary condition Figure boundary
-	if (mat[i][j] != ch)
+
+	void addEdge(int u, int v)
 	{
-		return;
+		adjList[u].push_back(v);
+		adjList[v].push_back(u);
 	}
-	//Recursive call
-	mat[i][j] = color;
-	for (int k = 0; k < 4; k++)
+
+	int helper(int node, map<int, bool>& visited, int* subtree)
 	{
-		floodFill(mat, i + dx[k], j + dy[k], ch, color);
+		visited[node] = true;
+		int size = 1;
+		for (auto elem : adjList[node])
+		{
+			if (!visited[elem])
+			{
+				size += helper(elem, visited, subtree);
+			}
+		}
+		subtree[node] = size;
+		return size;
 	}
-}
+
+
+	void dfs()
+	{
+		map<int, bool> visited;
+		mk(subtree, V + 1, int);
+		int size = 1;
+		for (auto elem : adjList)
+		{
+			if (!visited[elem.first])
+			{
+				helper(elem.first, visited, subtree);
+			}
+		}
+		for (int i = 1; i <= V; i++)
+		{
+			deb(i); deb(subtree[i]);
+		}
+	}
+};
+
 
 int32_t main()
 {
-	c_p_c();
+	//c_p_c();
 	//clock_t begin, end;    double time_spent;
 	//begin = clock();
-	cin >> R >> C;
-	char in[50][50];
-	for (int i = 0; i < R; i++)
-	{
-		for (int j = 0; j < C; j++)
-		{
-			cin >> in[i][j];
-		}
-	}
-	floodFill(in, 8, 13, '.', 'R');
-	for (int i = 0; i < R; i++)
-	{
-		for (int j = 0; j < C; j++)
-		{
-			cout << in[i][j];
-		}
-		cout << endl;
-	}
+
+
+	Graph g(7);
+	g.addEdge(1, 2);
+	g.addEdge(2, 3);
+	g.addEdge(3, 7);
+	g.addEdge(2, 4);
+	g.addEdge(4, 5);
+	g.addEdge(4, 6);
+	g.dfs();
 
 	//end = clock();
 	//time_spent = (double)(end - begin) / CLOCKS_PER_SEC;

@@ -30,17 +30,26 @@ class Graph
 
     bool isCycleHelper(T node, map<T, bool> &visited, map<T, bool> &inStack)
     {
-        visited[node] = true;
-        inStack[node] = true;
+        visited[node]=true;
+        inStack[node]=true;
 
-        //Explore the neighbours
-        for(auto neighbour: adjList[node])
+        for(auto elem: adjList[node])
         {
-            if(!visited[neighbour] && isCycleHelper(neighbour, visited, inStack) || inStack[neighbour])
+            if(inStack[elem]==true)
             {
                 return true;
             }
+
+            else if(!visited[elem])
+            {
+                bool isValid=isCycleHelper(elem, visited, inStack);
+                if(isValid)
+                {
+                    return true;
+                }
+            }
         }
+
         inStack[node]=false;
         return false;
     }
@@ -51,15 +60,10 @@ class Graph
         map<T, bool> visited;
         map<T, bool> inStack;
 
-        //To check for cycle in each DFS tree
-        for(auto i: adjList)
+        bool isValid=isCycleHelper(0, visited, inStack);
+        if(isValid)
         {
-            T node = i.first;
-            if(!visited[node])
-            {
-                bool cyclePresent = isCycleHelper(node, visited, inStack);
-                if(cyclePresent) return true;
-            }
+            return true;
         }
         return false;
     }

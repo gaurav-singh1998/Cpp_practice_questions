@@ -41,7 +41,7 @@ bool check(ll num)
 
     for(int i=0; primes[i]*primes[i]<=n; i++)
     {
-        if(n%i==0)
+        if(n%primes[i]==0)
         {
             return false;
         }

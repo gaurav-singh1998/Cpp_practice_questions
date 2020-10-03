@@ -73,78 +73,83 @@ void c_p_c()
 #endif
 }
 
-int find(int a, unordered_map<int, int>& parent)
-{
-	if (parent[a] == -1) return a;
-	return parent[a] = find(parent[a], parent);
-}
-
-void union_set(int a, int b, unordered_map<int, int>& parent, unordered_map<int, int>& rank)
-{
-	int s1 = find(a, parent);
-	int s2 = find(b, parent);
-	if (s1 != s2)
-	{
-		if (rank[s1] > rank[s2])
-		{
-			parent[s2] = s1;
-			rank[s1] += rank[s2];
-		}
-		else
-		{
-			parent[s1] = s2;
-			rank[s2] += rank[s1];
-		}
-	}
-}
-
-bool compare(pair<int, pair<int, int>> a, pair<int, pair<int, int>> b)
-{
-	return a.second.second < b.second.second;
-}
 
 class Graph
 {
 	int V;
-	vector<pair<int, pair<int, int>>> edgeList;
+	unordered_map<int, list<int>> adjList;
+	unordered_map<int, list<int>> adjList_reverse;
+
 public:
 	Graph(int V)
 	{
 		this->V = V;
 	}
 
-	void addEdge(int u, int v, int weight)
+	void addEdge(int u, int v)
 	{
-		edgeList.push_back({u, {v, weight}});
+		adjList[u].push_back(v);
+		adjList_reverse[v].push_back(u);
 	}
 
-	list<pair<int, pair<int, int>>> kruskal()
+	void helper(int node, unordered_map<int, bool>& visited, vector<int>& ordering)
 	{
-		sort(edgeList.begin(), edgeList.end(), compare);
-		list<pair<int, pair<int, int>>> ans;
-		unordered_map<int, int> parent, rank;
-		for (int i = 0; i < V; i++)
+		visited[node] = true;
+		for (auto elem : adjList[node])
 		{
-			parent[i] = -1;
-			rank[i] = 1;
-		}
-		for (auto elem : edgeList)
-		{
-			int a = elem.first, b = elem.second.first;
-			int p1 = find(a, parent);
-			int p2 = find(b, parent);
-			if (p1 != p2)
+			if (!visited[elem])
 			{
-				ans.push_back({p1, {p2, elem.second.second}});
-				union_set(a, b, parent, rank);
+				helper(elem, visited, ordering);
+			}
+		}
+		ordering.push_back(node);
+	}
+
+	vector<int> dfs()
+	{
+		unordered_map<int, bool> visited;
+		vector<int> ordering;
+		for (int i = 1; i <= V; i++)
+		{
+			if (!visited[i])
+			{
+				helper(i, visited, ordering);
 			}
 		}
 
-		return ans;
+		return ordering;
+	}
+
+	void reverse_helper(int node, unordered_map<int, bool>& visited, unordered_map<int, int>& comp, int color)
+	{
+		visited[node] = true;
+		comp[node] = color;
+		for (auto elem : adjList_reverse[node])
+		{
+			if (!visited[elem])
+			{
+				reverse_helper(elem, visited, comp, color);
+			}
+		}
+	}
+
+	unordered_map<int, int> dfs_reverse(vector<int> ordering)
+	{
+		vector<int>::reverse_iterator it;
+		int color = 1;
+		unordered_map<int, int> comp;
+		unordered_map<int, bool> visited;
+		for (it = ordering.rbegin(); it != ordering.rend(); it++)
+		{
+			if (!visited[*it])
+			{
+				reverse_helper(*it, visited, comp, color);
+				color++;
+			}
+		}
+		return comp;
 	}
 };
-
-
 
 int32_t main()
 {
@@ -156,31 +161,19 @@ int32_t main()
 	Graph g(v);
 	for (int i = 0; i < e; i++)
 	{
-		int s, d, w;
-		cin >> s >> d >> w;
-		g.addEdge(s, d, w);
+		int u, v; cin >> u >> v;
+		g.addEdge(u, v);
+	}
+	vector<int> ordering = g.dfs();
+	unordered_map<int, int> comp = g.dfs_reverse(ordering);
+	for (auto elem : comp)
+	{
+		cout << elem.first << "->" << elem.second << endl;
 	}
 
-	list<pair<int, pair<int, int>>> ans = g.kruskal();
-	for (auto elem : ans)
-	{
-		cout << elem.first << " "  << elem.second.first << " " << elem.second.second << endl;
-	}
+
 	//end = clock();
 	//time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
 	//cout << "Time spent = " << time_spent << endl;
 	return 0;
 }
-/**
- * To check the implementation
-7 
-8
-0 3 4
-0 1 6
-1 2 5
-3 2 7
-3 4 2
-4 5 4
-5 6 1
-4 6 3
-**/

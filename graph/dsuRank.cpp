@@ -73,77 +73,87 @@ void c_p_c()
 #endif
 }
 
-int find(int a, unordered_map<int, int>& parent)
-{
-	if (parent[a] == -1) return a;
-	return parent[a] = find(parent[a], parent);
-}
-
-void union_set(int a, int b, unordered_map<int, int>& parent, unordered_map<int, int>& rank)
-{
-	int s1 = find(a, parent);
-	int s2 = find(b, parent);
-	if (s1 != s2)
-	{
-		if (rank[s1] > rank[s2])
-		{
-			parent[s2] = s1;
-			rank[s1] += rank[s2];
-		}
-		else
-		{
-			parent[s1] = s2;
-			rank[s2] += rank[s1];
-		}
-	}
-}
-
-bool compare(pair<int, pair<int, int>> a, pair<int, pair<int, int>> b)
-{
-	return a.second.second < b.second.second;
-}
-
 class Graph
 {
 	int V;
-	vector<pair<int, pair<int, int>>> edgeList;
+	list<pair<int, int>> edgeList;
 public:
 	Graph(int V)
 	{
 		this->V = V;
 	}
 
-	void addEdge(int u, int v, int weight)
+	void addEdge(int u, int v)
 	{
-		edgeList.push_back({u, {v, weight}});
+		edgeList.push_back({u, v});
 	}
 
-	list<pair<int, pair<int, int>>> kruskal()
+	int find(int v, map<int, int>& parent)
 	{
-		sort(edgeList.begin(), edgeList.end(), compare);
-		list<pair<int, pair<int, int>>> ans;
-		unordered_map<int, int> parent, rank;
-		for (int i = 0; i < V; i++)
+		if (parent[v] == -1) return v;
+		return parent[v] = find(parent[v], parent);
+	}
+
+	void union_set(int u, int v, map<int, int>& parent, map<int, int>& rank)
+	{
+		int s1 = find(u, parent);
+		int s2 = find(v, parent);
+
+		if (s1 != s2)
+		{
+			if (rank[s2] > rank[s1])
+			{
+				parent[s1] = s2;
+				rank[s2] += rank[s1];
+			}
+			else
+			{
+				parent[s2] = s1;
+				rank[s1] += rank[s2];
+			}
+		}
+	}
+
+	bool contains_cycle()
+	{
+		map<int, int> parent;
+		map<int, int> rank;
+		bool ans = false;
+		for (int i = 1; i <= V; i++)
 		{
 			parent[i] = -1;
 			rank[i] = 1;
 		}
-		for (auto elem : edgeList)
+
+		for (auto edge : edgeList)
 		{
-			int a = elem.first, b = elem.second.first;
-			int p1 = find(a, parent);
-			int p2 = find(b, parent);
-			if (p1 != p2)
+			int va = edge.F;
+			int vb = edge.S;
+			int s1 = find(va, parent);
+			int s2 = find(vb, parent);
+			if (s1 != s2)
 			{
-				ans.push_back({p1, {p2, elem.second.second}});
-				union_set(a, b, parent, rank);
+				union_set(s1, s2, parent, rank);
+			}
+			else
+			{
+				ans = true;
+				break;
 			}
 		}
 
+		for (auto elem : parent)
+		{
+			cout << elem.F << " " << elem.S << endl;
+		}
+		cout << endl;
+		for (auto elem : rank)
+		{
+			cout << elem.F << " " << elem.S << endl;
+		}
 		return ans;
 	}
 };
-
 
 
 int32_t main()
@@ -152,35 +162,16 @@ int32_t main()
 	//clock_t begin, end;    double time_spent;
 	//begin = clock();
 
-	int v, e; cin >> v >> e;
-	Graph g(v);
-	for (int i = 0; i < e; i++)
-	{
-		int s, d, w;
-		cin >> s >> d >> w;
-		g.addEdge(s, d, w);
-	}
+	Graph g(4);
+	g.addEdge(1, 2);
+	g.addEdge(2, 3);
+	g.addEdge(3, 4);
+	g.addEdge(4, 1);
+	cout << g.contains_cycle() << endl;
 
-	list<pair<int, pair<int, int>>> ans = g.kruskal();
-	for (auto elem : ans)
-	{
-		cout << elem.first << " "  << elem.second.first << " " << elem.second.second << endl;
-	}
+
 	//end = clock();
 	//time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
 	//cout << "Time spent = " << time_spent << endl;
 	return 0;
 }
-/**
- * To check the implementation
-7 
-8
-0 3 4
-0 1 6
-1 2 5
-3 2 7
-3 4 2
-4 5 4
-5 6 1
-4 6 3
-**/

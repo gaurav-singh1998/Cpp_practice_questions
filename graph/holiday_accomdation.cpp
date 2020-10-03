@@ -66,121 +66,86 @@ typedef tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_
 
 void c_p_c()
 {
-	ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
+    ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
 #ifndef ONLINE_JUDGE
-	freopen("input.txt", "r", stdin);
-	freopen("output.txt", "w", stdout);
+    freopen("input.txt", "r", stdin);
+    freopen("output.txt", "w", stdout);
 #endif
-}
-
-int find(int a, unordered_map<int, int>& parent)
-{
-	if (parent[a] == -1) return a;
-	return parent[a] = find(parent[a], parent);
-}
-
-void union_set(int a, int b, unordered_map<int, int>& parent, unordered_map<int, int>& rank)
-{
-	int s1 = find(a, parent);
-	int s2 = find(b, parent);
-	if (s1 != s2)
-	{
-		if (rank[s1] > rank[s2])
-		{
-			parent[s2] = s1;
-			rank[s1] += rank[s2];
-		}
-		else
-		{
-			parent[s1] = s2;
-			rank[s2] += rank[s1];
-		}
-	}
-}
-
-bool compare(pair<int, pair<int, int>> a, pair<int, pair<int, int>> b)
-{
-	return a.second.second < b.second.second;
 }
 
 class Graph
 {
-	int V;
-	vector<pair<int, pair<int, int>>> edgeList;
+    int V;
+    unordered_map<int, list<pair<int, int>>> adjList;
+
 public:
-	Graph(int V)
-	{
-		this->V = V;
-	}
+    Graph(int V)
+    {
+        this->V = V;
+    }
 
-	void addEdge(int u, int v, int weight)
-	{
-		edgeList.push_back({u, {v, weight}});
-	}
+    void addEdge(int u, int v, int cost)
+    {
+        adjList[u].push_back({v, cost});
+        adjList[v].push_back({u, cost});
+    }
 
-	list<pair<int, pair<int, int>>> kruskal()
-	{
-		sort(edgeList.begin(), edgeList.end(), compare);
-		list<pair<int, pair<int, int>>> ans;
-		unordered_map<int, int> parent, rank;
-		for (int i = 0; i < V; i++)
-		{
-			parent[i] = -1;
-			rank[i] = 1;
-		}
-		for (auto elem : edgeList)
-		{
-			int a = elem.first, b = elem.second.first;
-			int p1 = find(a, parent);
-			int p2 = find(b, parent);
-			if (p1 != p2)
-			{
-				ans.push_back({p1, {p2, elem.second.second}});
-				union_set(a, b, parent, rank);
-			}
-		}
+    int helper(int node, unordered_map<int, bool>& visited, unordered_map<int, int>& count, int& ans)
+    {
+        visited[node] = 1;
+        int size = 1;
 
-		return ans;
-	}
+        for (auto elem : adjList[node])
+        {
+            int child = elem.first;
+            int cost = elem.second;
+            if (!visited[child])
+            {
+                size += helper(child, visited, count, ans);
+                int nx = count[child];
+                int ny = V - nx;
+                ans += (2 * min(nx, ny) * cost);
+            }
+        }
+
+
+        count[node] = size;
+        return count[node];
+    }
+
+    int dfs()
+    {
+        unordered_map<int, bool> visited;
+        unordered_map<int, int> count;
+        int ans = 0;
+        helper(1, visited, count, ans);
+        return ans;
+    }
 };
-
 
 
 int32_t main()
 {
-	//c_p_c();
-	//clock_t begin, end;    double time_spent;
-	//begin = clock();
+    //c_p_c();
+    //clock_t begin, end;    double time_spent;
+    //begin = clock();
 
-	int v, e; cin >> v >> e;
-	Graph g(v);
-	for (int i = 0; i < e; i++)
-	{
-		int s, d, w;
-		cin >> s >> d >> w;
-		g.addEdge(s, d, w);
-	}
+    int t; cin >> t;
+    for (int i = 1; i <= t; i++)
+    {
+        int v; cin >> v;
+        Graph g(v);
+        for (int i = 1; i < v; i++)
+        {
+            int u, v, cost; cin >> u >> v >> cost;
+            g.addEdge(u, v, cost);
+        }
+        cout << "Case #" << i << ": " << g.dfs() << endl;
+    }
 
-	list<pair<int, pair<int, int>>> ans = g.kruskal();
-	for (auto elem : ans)
-	{
-		cout << elem.first << " "  << elem.second.first << " " << elem.second.second << endl;
-	}
-	//end = clock();
-	//time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
-	//cout << "Time spent = " << time_spent << endl;
-	return 0;
+
+    //end = clock();
+    //time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
+    //cout << "Time spent = " << time_spent << endl;
+    return 0;
 }
-/**
- * To check the implementation
-7 
-8
-0 3 4
-0 1 6
-1 2 5
-3 2 7
-3 4 2
-4 5 4
-5 6 1
-4 6 3
-**/

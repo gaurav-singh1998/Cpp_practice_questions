@@ -125,7 +125,7 @@ int shortestPath(int num1, int num2)
 
 int main() 
 { 
-    int num1 = 1033, num2 = 8179; 
+    int num1 = 1373, num2 = 8017; 
     cout << shortestPath(num1, num2) << endl; 
     return 0; 
 } 
